@@ -15,6 +15,7 @@
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 module Network.Ripple.Balances ( getAccount
+                               , filterBalances
                                , identifyBalances
                                , showBalances
                                ) where
@@ -23,6 +24,9 @@ import qualified Network.Ripple as Ripple
 
 getAccount :: IO Ripple.Account
 getAccount = undefined
+
+filterBalances :: [Ripple.Balance] -> [Ripple.Balance]
+filterBalances = filter (\bal -> Ripple.balanceValue bal /= 0)
 
 identifyBalances :: [Ripple.Balance] -> IO [Ripple.Balance]
 identifyBalances = undefined

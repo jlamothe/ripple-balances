@@ -16,13 +16,25 @@
 
 module Main (main) where
 
+import qualified Network.Ripple as Ripple
+import Network.Ripple.Balances
 import System.Exit (exitSuccess, exitFailure)
-import Test.HUnit (Test (..), Counts (..), runTestTT)
+import Test.HUnit ( Test (..)
+                  , Counts (..)
+                  , runTestTT
+                  , (@=?)
+                  )
 
 main :: IO ()
 main = runTestTT tests >>= checkCounts
 
-tests = TestList []
+tests = TestList [filterBalancesTest]
+
+filterBalancesTest = TestLabel "filterBalances" $
+  TestCase $ [nonzero] @=? filterBalances [zero, nonzero]
+  where
+    zero = Ripple.Balance 0 "" Nothing
+    nonzero = Ripple.Balance 100 "" Nothing
 
 checkCounts :: Counts -> IO ()
 checkCounts counts = if (errors counts > 0 || failures counts > 0)
