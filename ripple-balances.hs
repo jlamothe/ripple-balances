@@ -22,7 +22,8 @@ import Network.Ripple.Balances
 main :: IO ()
 main = do
   account <- getAccount
-  balances <- Ripple.getBalances account >>= identifyBalances
+  balances <- Ripple.getBalances account
+  balances <- identifyBalances $ filterBalances balances
   showBalances balances
 
 -- jl
