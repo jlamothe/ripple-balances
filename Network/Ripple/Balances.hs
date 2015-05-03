@@ -30,7 +30,7 @@ filterBalances :: [Ripple.Balance] -> [Ripple.Balance]
 filterBalances = filter (\bal -> Ripple.balanceValue bal /= 0)
 
 identifyBalances :: [Ripple.Balance] -> IO [Ripple.Balance]
-identifyBalances = undefined
+identifyBalances = sequence . map identifyBalance
 
 showBalances :: [Ripple.Balance] -> IO ()
 showBalances = undefined
@@ -42,5 +42,8 @@ getAddr = do
   case args of
     [x] -> return x
     _   -> error $ "usage: " ++ progName ++ " <address/username>"
+
+identifyBalance :: Ripple.Balance -> IO Ripple.Balance
+identifyBalance = undefined
 
 -- jl
