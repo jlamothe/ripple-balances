@@ -21,9 +21,10 @@ module Network.Ripple.Balances ( getAccount
                                ) where
 
 import qualified Network.Ripple as Ripple
+import System.Environment
 
 getAccount :: IO Ripple.Account
-getAccount = undefined
+getAccount = getAddr >>= return . Ripple.buildAccount
 
 filterBalances :: [Ripple.Balance] -> [Ripple.Balance]
 filterBalances = filter (\bal -> Ripple.balanceValue bal /= 0)
@@ -33,5 +34,13 @@ identifyBalances = undefined
 
 showBalances :: [Ripple.Balance] -> IO ()
 showBalances = undefined
+
+getAddr :: IO String
+getAddr = do
+  args <- getArgs
+  progName <- getProgName
+  case args of
+    [x] -> return x
+    _   -> error $ "usage: " ++ progName ++ " <address/username>"
 
 -- jl
